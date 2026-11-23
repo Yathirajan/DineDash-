@@ -132,3 +132,16 @@ The project report describes five dimension datasets (customers, restaurants, lo
 
 **Project:** DineDash  
 **Focus:** Data Engineering | ETL | Food Delivery Analytics
+
+
+## Databricks notebooks and DLT pipeline
+
+The repository now includes importable Databricks source notebooks and a declarative pipeline definition:
+
+- [Dimension data ingestion notebook](notebooks/01_dimension_data_ingestion.py) — reads the five dimension CSV files with explicit schemas, writes Bronze Delta tables, and creates filtered dimension tables.
+- [Incremental orders ingestion notebook](notebooks/02_incremental_orders_ingestion.py) — initializes `orders_bronze` and incrementally loads monthly JSON files using `COPY INTO`.
+- [Business analytics notebook](notebooks/03_business_analytics.py) — Databricks SQL queries for order, customer, restaurant, payment, delivery and item analysis.
+- [DLT / Lakeflow pipeline SQL](pipelines/dinedash_dlt_pipeline.sql) — Bronze ingestion, Silver transformations with data quality expectations, and Gold analytical views.
+- [Notebook and pipeline setup guide](docs/notebooks-and-dlt-setup.md) — import instructions, source paths, and implementation notes.
+
+**Important:** The notebooks and pipeline source are based on the project report and have not been executed against your Databricks workspace in this session. Update the Volume paths, verify the actual JSON item schema, configure a target catalog/schema, and validate the pipeline before running. The notebook ingestion route and DLT route should use separate target schemas (or be run selectively) to avoid table-name collisions.
